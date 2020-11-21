@@ -1,0 +1,270 @@
+---
+title: "TRACE Document"
+author: "McClure, C.J.W., B.P. Pauli, W.G. Hunt, B. Mutch, & P. Juergens"
+date: "`r Sys.Date()`"
+fontsize: 12pt
+bibliography: trace_citations.bib
+csl: ibis.csl
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+# - \fancyhead[CO,CE]{TRACE Document--Author name and short title}
+# - \fancyfoot[CO,CE]{Test footer}
+- \fancyfoot[LE,RO]{\thepage}
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+# TRACE Document Background 
+
+This is a **TRACE** document ("**TRA**nsparent and **C**omprehensive model **E**valudation") which provides supporting evidence that our model presented in:
+
+> **Assessing the importance of artificial nest sites in the population dynamics of endangered Northern Aplomado Falcons *Falco femoralis septentrionalis* in South Texas using stochastic simulation models. Ibis**
+
+was thoughtfully designed, correctly implemented, thoroughly tested, well understood, and appropriately used for its intended purpose. 
+
+The rationale of this document follows:
+
+> Schmolke A., P. Thorbek, D.L. DeAngelis, and V. Grimm. 2010. Ecological modelling supporting environmental decision making: a strategy for the future. Trends in Ecology and Evolution 25:479--486.
+
+and uses the updated standard terminology and document structure in:
+
+> Grimm V., J. Augusiak, A. Focks, B. Frank, F. Gabsi, A.S.A Johnston, K. Kulakowska, C. Liu, B.T. Martin, M. Meli, V. Radchuk, A. Schmolke, P. Thorbek, and S.F. Railsback. 2014. Towards better modelling and decision support: documenting model development, testing, and analysis using TRACE. Ecological Modelling 280:129--139.  
+
+and
+
+> Augusiak J., P.J. Van den Brink, and V. Grimm. 2014. Merging validation and evaluation of ecological models to 'evaludation': a review of terminology and a practical approach. Ecological Modelling 280:117--128.
+
+# Problem formulation 
+
+**This TRACE element provides supporting information on:** The decision-making context in which the model will be used; the types of model clients or stakeholders addressed; a precise specification of the question(s) that should be answered with the model, including a specification of necessary model outputs; and a statement of the domain of applicability of the model, including the extent of acceptable extrapolations. 
+
+Summary:
+
+> **The purpose of the AploModel is both to gain a greater understanding of the population of Northern Aplomado Falcons in South Texas, and also to examine the efficacy of different management options for the population. In particular, the model is intended to address the potential effects of increases in nesting quantity and/or quality on Aplomado Falcons. The main output of interest is the population abundance over time. The model is intended to directly inform the management of Aplomado Falcons and direct future efforts towards population conservation.**
+
+Northern Aplomado Falcons are a species of conservation concern in the southwestern United States. Reintroductions of the species began in south Texas in 1985 and the population appears to have stabilized since 2004 (Hunt et al., 2013; Jenny et al., 2004). Nesting habitat has been improved for the species through the installation of nest platforms that exclude predators which has increased nest survival (@brown2012bayesian, @brown2008nest) and the number of fledglings produced (Hunt et al., 2013). It is important to assess the effects of augmenting breeding sites at a population level (Catry et al., 2009).  The overall effect of nest platforms on the Aplomado Falcon population, however, is not known. 
+
+It is also unknown whether Northern Aplomado Falcons in South Texas are limited by the quantity of available habitat. Raptor populations may be limited by the availability of breeding territories with excess individuals becoming non-breeding ‘floaters’ (Hunt and Law, 2000; Hunt, 1998). Floaters have been observed in this population (Brown et al., 2006), suggesting that habitat might be limiting. 
+
+Thus, Aplomado Falcons in south Texas may be supported through the increase in nesting quality and/or quantity.  The goal of this model is to identify the role of management actions on the quality and quantity of nesting territories. Output from the model is intended to directly inform conservation and management actions for this species in south Texas.
+
+# Model description 
+
+**This TRACE element provides supporting information on:** The model. Provide a detailed written model description. For individual/agent-based and other simulation models, the ODD protocol is recommended as standard format. For complex submodels it should include concise explanations of the underlying rationale. Model users should learn what the model is, how it works, and what guided its design.
+
+Summary:
+
+> **Below is a complete model description of the individual-based model of aplomado falcon population dynamics relative to management actions described using the ODD protocol.**
+
+The model description follows the ODD (Overview, Design concepts, Details) protocol for describing individual-based models (Grimm et al., 2010, 2006). This model was written in NetLogo 5.1 (Wilensky, 1999).
+
+## Purpose
+
+The purpose of the AploModel is both to gain a greater understanding of the population of Northern Aplomodo Falcons in South Texas, and also to examine the efficacy of different management options for the population.
+
+## Entities, state variables, and scales
+
+The virtual landscape is a 100 x 100 pixel square. Within the landscape there is a hack tower and a user-defined number of available breeding territories. At initialization, the hack tower and territories are randomly placed within the environment. There is no variation in the quality of the breeding territories. Time moves in one-year increments. Agents in this model consist of male and female Northern Aplomado Falcons that maintain a record of their age (ticks), paring status, territorial status, and whether the bird was hacked or born in the wild. 
+
+## Process overview and scheduling
+
+During each timestep, new breeding sites are added (if applicable), birds die according to a stochastic process, non-paired birds disperse, paired birds mate and produce offspring and additional hacked birds are released. The model runs for a pre-specified length of time (e.g. 100 years) or until there are no members of one sex (after the conclusion of hacking).
+
+## Design concepts
+
+### Basic Principles
+
+The order of settlement is based on raptor biological biology and field observations. Cooperative breeding is not known to occur for this species (Keddy-Hector, 2000), therefore the agents follow the pattern typical of raptors of becoming floaters if no breeding sites are available (Hunt, 1998). 
+
+### Emergence
+
+Population dynamics emerge from interactions between the processes of hacking, productivity and survival, as well as the number of available breeding territories.  
+
+### Interaction
+
+Agents must find mates of the opposite sex to breed and are excluded from territories by members of the same sex. 
+
+### Stochasticity
+
+Stochasticity is built into the model at both the yearly and individual levels. Average values of survival and productivity are drawn randomly every year and individuals draw random numbers to determine outcomes (e.g. live or die, number and sex ratio of offspring fledged).
+
+### Observation
+
+The overall population size and numbers of each sex as well as number of breeding pairs, floater to breeder ratio, age ratio of breeding pairs, number of lone males and females, and proportion of breeding pairs with sub-adult males and females are observed during each simulation.
+
+## Initialization
+
+At the beginning of the simulation, breeding sites are created and assigned to random locations within the simulated landscape. In addition, a single tower is created at a random location. No birds are present at initialization.
+
+## Input data
+
+The AploModel does not use input data to represent time-varying processes.
+
+## Submodels
+
+### Survival
+
+During each year the population-wide mean of survival is determined by the formula mean + Z * SD where Z is a Z-score (random normal value with mean 0 and SD 1) for productivity and the mean and SD for each subset of the population are set by the user. The purpose of this Z-score is to ensure that productivity and survival are positively related (see Productivity below). The particular fate of each falcon is determined by a random Bernoulli trial with the mean being the mean of that year. 
+
+### Settlement
+
+Each year the falcons must disperse and try to establish territories. We determined which falcons established territories and attained mates by having the order of individual settlement dependent upon age and sex. The first segment of the population to settle each year is adult (age $\ge$ 2) males. These adult males will settle on an open territory if available. If there are no available territories, the falcon will become a floater, settling on a pixel without a territory, and will not breed that year. The sub-adult males (age < 2) then settle in the same fashion as the adults, becoming floaters if no territories are available. 
+
+After the males have established (or failed to establish) territories, the adult females settle, followed by the sub-adult females. Females pair with males on a territory without taking into account the age of the males. If there are no unpaired territorial males available, females will settle in empty territories, but will not mate. Only one female can settle on a given territory. If there are no empty territories or unpaired territorial males, the females will settle on a pixel without a territory and will be a floater. Within each population segment, the order of settlement is drawn randomly.
+
+### Productivity
+
+Once pairs have formed, those pairs will breed. Each year the average number of offspring fledged is determined by drawing a random number from a gamma distribution with a mean and variance determined using field data (The Peregrine Fund, unpublished data). The model then adds to the current year’s mean the product of the yearly Z-score (see Survival above) and the observed average variance derived from field data. The number of offspring fledged from individual nests is then drawn from a Poisson distribution with the mean being the population mean for that year. The model distinguishes between nesting attempts before and after 2011 because of the marked increase in the productivity of falcons observed after 2011 (Fig. 1) owing to the installation of improved nesting platforms. The mean and variance of the breeding population both pre and post 2011 can be set by the user. The sex of each offspring is determined by comparing a random uniform value between 0 and 1 to the average sex ratio set by the user. If the random value is below the set sex ratio, the offspring is male, otherwise it is female.
+
+### Hacking
+
+The model “releases” Northern Aplomado Falcons from the hack tower in the same numbers as were released per year by The Peregrine Fund in South Texas. All birds released are juveniles (age = 0) and all releases are of equal sex ratios.
+
+# Data evaluation
+
+**This TRACE element provides supporting information on:** The quality and sources of numerical and qualitative data used to parameterize the model, both directly and inversely via calibration, and of the observed patterns that were used to design the overall model structure. This critical evaluation will allow model users to assess the scope and the uncertainty of the data and knowledge on which the model is based.
+
+Summary:
+
+> **We provide information regarding the sources of the values we used to parameterize survival, productivity and the number of available territories.**
+
+## Survival
+
+We used the values of survival and their associated error estimated by Brown et al. (Brown et al., 2006) for all segments of the modeled population except for juvenile males, which was calibrated to match one set of field observations (see model output verification). Brown et al.’s estimates are made from mark recapture models of the same population in South Texas that we are modeling. See Table 1 for estimates.
+
+## Productivity
+
+Every year territories of northern aplomado falcons in South Texas are surveyed twice, once for occupancy and once for productivity. We therefore calculated rates of productivity using data from these surveys within the Peregrine Fund’s unpublished database (Fig. 1). See Table 1 for estimates.
+
+## Number of breeding territories
+
+We set the number of available breeding territories for the Status Quo as 44 because that is the maximum number ever observed (USFWS, 2014) and is likely the current number of high-quality territories available to the population (B. Mutch and P. Juergens personal observation).
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+
+library(tidyverse)
+
+table_1 <- readr::read_csv(here::here('table_1.csv'))
+
+table_1 %>%
+   kableExtra::kable(caption = 'Default parameter values for the AploModel, as well as the Standard Deviations (SD), definitions, and sources of values.') %>%
+   kableExtra::kable_styling(font_size = 10) %>%
+   kableExtra::row_spec(0, bold = TRUE) %>%
+   kableExtra::column_spec(1, width = "10em") %>%
+   kableExtra::column_spec(2, width = "15em") %>%
+   kableExtra::column_spec(5, width = "10em")
+
+```
+
+# Conceptual model evaluation 
+
+**This TRACE element provides supporting information on:** The simplifying assumptions underlying a model's design, both with regard to empirical knowledge and general, basic principles. This critical evaluation allows model users to understand that model design was not ad hoc but based on carefully scrutinized considerations. 
+
+Summary:
+
+> **Details regarding model design and conceptual framework are presented in the model description and data evaluation sections. While the assumptions of the empirical research underlying this model are not addressed here, the general framework for this model is discussed below.**
+
+The basis of this model is that of nesting success. The model assumes that nesting sites are limited to natural sites and those added via conservation efforts. It is further assumed that individual birds choose nesting sites independent of location and quality. Instead, males choose unoccupied sites and females chose sites with unpaired males. The model also assumes that conservation action can be taken to increase the number of nesting locations and/or increase the productivity of nesting sites. Finally, it is assumed that individual years vary in their quality so that in some years both survival and productivity is high while in other years both are reduced.
+
+# Implementation verification 
+
+**This TRACE element provides supporting information on:** (1) whether the computer code implementing the model has been thoroughly tested for programming errors, (2) whether the implemented model performs as indicated by the model description, and (3) how the software has been designed and documented to provide necessary usability tools (interfaces, automation of experiments, etc.) and to facilitate future installation, modification, and maintenance.
+
+Summary:
+
+> **To verify proper implementation of the code a number of tests in various forms were conducted. At the most basic level, the code was checked for syntax errors during production. In addition, focused tests of individual submodels were performed and the results observed both visually and through the use of various forms of output. In addition, spot checks of the attributes of individual agents were compared to those calculated manually and extreme scenarios were undertaken to function as a ‘stress test.’**
+
+# Model output verification 
+
+This TRACE element provides supporting information on: (1) how well model output matches observations and (2) how much calibration and effects of environmental drivers were involved in obtaining good fits of model output and data. 
+
+Summary:
+
+> **The implementation of this model only involved the calibration of a single parameter (juvenile male survival). Once completed, pattern matching and model performance were satisfactory. Measures of how well model output matched empirical observations are presented in the model output corroboration section of this document.**
+
+We initially parameterized the model using Brown et al.s (Brown et al., 2006) estimates of survival. However, Brown et al. did not detect any differences between male and female survival even though more lone females than males and more pairs with subadult males than pairs with subadult females have been observed throughout the history of this population (Hunt et al., 2013). It therefore seems that male survival is lower than female survival at some point in the life-cycle of this population. 
+
+To determine which parameter we should calibrate, we systematically varied the adult, juvenile, and floater survival of males as well as the percent of the clutches that males comprised. We varied each parameter by stepping down from Brown et al.s estimate in 10 equal intervals. We also varied the percentage of fledglings that were males in a similar fashion from the base-level of 50%.
+
+```{r penguin, echo = FALSE, warning = FALSE, message = FALSE, fig.cap = "Life expectancy from 1952 - 2007 for Australia. Life expentancy increases steadily except from 1962 to 1969. We can safely say that our life expectancy is higher than it has ever been."}
+library(tidyverse)
+library(palmerpenguins)
+
+ggplot(data = penguins, 
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(aes(color = species, 
+                 shape = species),
+             size = 3,
+             alpha = 0.8) +
+  #theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal()
+```
+
+We then determined which parameter setting most closely matched the average observed value of lone territorial females for the years during which we have good data (2008-2015) and calibrated that parameter to that setting for all simulations. No other patterns were used for calibration, therefore the ability of the AploModel to match other patterns should not be attributed to overfitting of parameters.
+
+The setting that most closely matched the average yearly number of lone territorial females of 5.125 was juvenile male survival at 0.181 (Fig. 2). Although, we note that we ran simulations using other settings that were near the observed value such as the percentage of fledgings that are male at 30% and male breeder survival at 0.856 and the inference from the simulations was similar to setting male juvenile survival to 0.181 and also to simulations that did not use any calibration (Fig. 3). Therefore, the inference derived from our simulations is robust to potential errors in calibration.     
+
+# Model analysis
+
+This TRACE element provides supporting information on: (1) how sensitive model output is to changes in model parameters (sensitivity analysis), and (2) how well the emergence of model output has been understood. 
+
+Summary:
+
+> **We examined the sensitivity of the model to changes in a number of the model parameters. We examined the effect of systematic variation of each parameter on all of the output from the model used in this context. Emergence of model output is explored more thoroughly in the model output corroboration section and main manuscript.**
+
+Many of the parameters used to construct this model have been drawn from empirically derived, published studies or unpublished data. We conducted sensitivity analysis on all parameters in this model excluding the variances around those parameters. Thus, we systematically varied the survival rates for juvenile males, juvenile females, adult breeding males, adult breeding females, floater males, floater females, hacked juveniles and hacked floaters. In addition, the mean number of fledglings (both before and after quality improvement), the proportion of male fledglings and the number of breeding sites were also varied. For each parameter we conducted 100 simulations where all other parameters were held constant but the parameter of interest was varied from baseline in increments within a reasonable range. This resulted in a total of 12,100 simulation runs. Output for these simulations were the number of breeding pairs, the year of extinction and the floater to breeder ratio. The results of these simulations were then analyzed using the ‘spartan’ package (Alden et al., 2014, 2013) in program R (version 3.1.1; R Core Team, 2012). For all response variables, a Vargha-Delaney A-Test (with the standard significance level of 0.21) was conducted when varying each parameter. Model output was relatively insensitive to perturbations in the juvenile survival rates for females (Fig. 4). However, for juvenile males when survival rates were reduced, model output displayed larger differences (Fig. 5). The AploModel was more sensitive to changes in adult survival rates (Figs. 6-7). Because initial estimates of adult survival was high for both sexes, increases in those parameter estimates were limited and, so, showed little sensitivity. When estimates were decreased, however, all measures of model output were significantly affected when survival estimates decreased below roughly 80%. This is likely due to the fact that adult survival rates are compounded over the life of an individual so a small reduction in annual survival probability could drastically reduce the life expectancy of an individual. Variations in survival of floaters had little impact on model output aside from affecting the floater to breeder ratio (Figs 8-9). The model appears to be very insensitive to changes in survival rates for both hacked juveniles and hacked adults (Figs. 10-11). Surprisingly, variations in the mean current fledge rate (that before nesting site improvement) did little to change model output while variations in the post-improvement fledge rate resulted in significant impacts on model output (Figs. 12-13). Likely this is because post-improvement fledging is a greater value and more responsible for population establishment and stability than the pre-improvement value. Model output was somewhat insensitive to changes in the proportion of male fledglings within the range of 0.4 to 0.75. Outside this range, however, model output was significantly impacted (Fig. 14) likely due to a sex ratio so skewed that individuals were unable to effectively pair with members of the opposite sex.  Finally, the number of available nesting sites had little impact on model output with the anticipated exception of having a major influence on the number of nesting pairs (Fig. 15). 
+
+# Model output corroboration
+
+**This TRACE element provides supporting information on:** How model predictions compare to independent data and patterns that were not used, and preferably not even known, while the model was developed, parameterized, and verified. By documenting model output corroboration, model users learn about evidence which, in addition to model output verification, indicates that the model is structurally realistic so that its predictions can be trusted to some degree. 
+
+Summary:
+
+> **A number of patterns from data independent of model construction have been used to evaluate the ability of the model to realistically represent aplomado falcon population dynamics.**
+
+We tested eight patterns to determine how well the AploModel predicted certain population dynamics (Table 2). These patterns represented aspects of population dynamics that we felt were characteristic of this population and if matched would support the use of the model. We considered the quantative patterns to be strongly matched if the predicted value fell within the observed range and weakly matched if the ranges of the modeled and observed estimates overlapped. We considered the number of pairs per year to be matched if the *R^2^* value was > 0.5. All patterns were tested under the Status Quo parameterization.
+
+## Numbers of lone territorial birds
+
+A characteristic of this population is that every year there are more lone females on territory than lone males on territory (Hunt et al., 2013). We therefore tested whether our model would match the number of lone males and females on territory and whether it would produce more lone females than males on average as is observed in the wild. 
+
+The AploModel strongly matched the numbers of lone territorial males and females observed between 2008-2015 as well as their relative differences (Fig. 16). Of course, we calibrated the survival of juvenile males using the number of lone territorial females observed in the wild. But, our calibration only guaranteed that the modeled output would be closer to the observed value of lone females than that produced using other parameter settings, not necessarily that the predicted number of lone territorial females would fall within the range observed in the wild. That the AploModel also matched the number of lone territorial males and the relative differences between the sexes also supports the ability of the model to match the patterns of lone territorial Aplomado falcons in South Texas.
+
+## Proportion of pairs that contain subadult males or females
+
+Another characteristic of this population is that more pairs consist of subadult males (1yr old) and adult (> 1 yr old) females than vice versa (Hunt et al., 2013). We therefore tested whether our model would match the average proportion of pairs with subadult males and adult females per year and the proportion of pairs with subadult females and adult males as well and the relative differences in their proportions observed in the wild 1995 (when the first pair was observed) - 2015.
+
+The predicted values of average proportions of pairs with subadult males and adult females, and vice versa, were both within the range observed in the wild population (Fig. 17). However, although the proportion of pairs with subadult males was higher than the proportion of pairs with subadult females, the difference was slight and so we consider this pattern as only weakly matched.
+
+## Age ratio
+
+The age ratio of a population is the proportion of breeding individuals that are adults (Hernández-Matías et al., 2011). The reintroduced population of northern Aplomado falcons in South Texas has had a relatively high average age ratio from 1995 – 2015 (Fig. 18), likely owing to the high rate of adult survival (Brown et al., 2006). We therefore tested whether the modeled populations would also have a high age ratio. 
+
+The average age ratio predicted by the AploModel fell within the range of yearly values observed for the wild population (Fig. 18). Because age ratios are functions of both survival and the settlement patterns of birds (Hernández-Matías et al., 2011), matching the observed age ratio gives us confidence in the estimates of adult survival by Brown et al. (Brown et al., 2006), and the settlement rules that we used.
+
+## Number of breeding pairs per year
+
+The AploModel is designed to test hypotheses about the effects of management on the numbers of breeding pairs in the population. Therefore, we tested the ability of the AploModel to predict the number of breeding pairs observed per year of northern Aplomado falcons in South Texas. 
+
+The average simulated yearly number of breeding pairs matched the numbers of breeding pairs observed in the wild strikingly well (Fig. 19) with an R2 value of 0.97. The number of breeding pairs is an emergent property of interactions between all of the parameters within the model. Therefore the ability to predict the number of breeding pairs in the wild gives us confidence that the model is a useful tool in determining the relative effects of management acting through changes in vital rates to affect the number of breeding pairs in this population.
+
+# Literature cited
+

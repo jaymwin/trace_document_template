@@ -1,0 +1,11 @@
+﻿Parameter (variable name),Definition,Default,SD,Source
+Survival - Male Juvenile Wild,Probability of wild-born male with age = 0 surviving to next tick,0.18,0.05,Calibration
+Survival - Female Juvenile Wild,Probability of wild-born female with age = 0 surviving to next tick,0.37,0.05,Brown et al. 2006
+Survival - Juvenile Hacked,Probability of hacked falcon (any sex) with age = 0 surviving to next tick,0.17,0.03,Brown et al. 2006
+Survival - Floater Wild,Probability of wild-born floater (any sex) surviving to next tick,0.87,0.09,Brown et al. 2006
+Survival - Floater Hacked,Probability of hacked floater (any sex) surviving to next tick,0.3,0.1,Brown et al. 2006
+Survival – Breeder,Probability of breeder (any sex) surviving to next tick,0.91,0.08,Brown et al. 2006
+Fecundity (pre-2011),Number of fledglings produced per territorial pair,0.86,0.37,"The Peregrine Fund, unpublished data"
+Fecundity (post-2011),Number of fledglings produced per territorial pair,1.67,0.37,"The Peregrine Fund, unpublished data"
+% Clutch Males,Probability a given egg is a male,0.5,NA,"The Peregrine Fund, unpublished data"
+# Breeding Sites,# of sites available for breeding,44,NA,"The Peregrine Fund, unpublished data"
